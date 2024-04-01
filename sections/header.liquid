@@ -1,0 +1,107 @@
+<nav class="p-5 bg-slate-100 text-base font-medium text-neutral-900 shadow-md">
+  <div class="grid grid-cols-2 md:grid-cols-3">
+    <div class="md:flex justify-center">{{ section.settings.header_title }}</div>
+    <div class="hidden md:flex justify-center gap-6">
+      {% for link in linklists[section.settings.header_menu].links %}
+        {% if link.links != blank %}
+          <div>
+            <button
+              id="link-item-{{ link.handle }}"
+              class="menu-dropdown-item text-left"
+              onclick="menuDropdownHandler(this.id)"
+            >
+              <a class="hover:text-neutral-500">
+                {{ link.title }}
+                {% render 'icon-dropdown' %}
+              </a>
+              <div class="sublinks-dropdown hidden flex-col gap-3 mt-3">
+                {% for sublink in link.links %}
+                  <a class="hover:text-neutral-500" href="{{ sublink.url }}">
+                    {{- sublink.title -}}
+                  </a>
+                {% endfor %}
+              </div>
+            </button>
+          </div>
+        {% else %}
+          <div>
+            <a class="hover:text-neutral-500" href="{{ link.url }}">
+              {{ link.title }}
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="hidden md:flex justify-center gap-6">
+      <a class="hover:text-neutral-500" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
+      {% if shop.customer_accounts_enabled %}
+        <a class="hover:text-neutral-500" href="{{ routes.account_login_url }}">Login</a>
+        <a class="hover:text-neutral-500" href="{{ routes.account_register_url }}">Register</a>
+      {% endif %}
+    </div>
+
+    <div class="flex gap-5 md:hidden justify-end">
+      <a class="hover:text-neutral-500" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
+      <button id="menu-open-icon" class="hover:text-neutral-500" onclick="mobileMenuHandler()">
+        {% render 'icon-menu' %}
+      </button>
+      <button id="menu-close-icon" class="hidden hover:text-neutral-500" onclick="mobileMenuHandler()">
+        {% render 'icon-menu-close' %}
+      </button>
+    </div>
+  </div>
+  <!-- MOBILE LINKS -->
+  <div id="mobile-links" class="hidden flex-col md:hidden py-10 gap-5">
+    {% for link in linklists[section.settings.header_menu].links %}
+      {% if link.links != blank %}
+        <button
+          id="link-item-{{ link.handle }}-m"
+          class="menu-dropdown-item text-left"
+          onclick="menuDropdownHandler(this.id)"
+        >
+          <a class="hover:text-neutral-500">
+            {{ link.title }}
+            {% render 'icon-dropdown' %}
+          </a>
+          <div class="sublinks-dropdown hidden flex-col gap-3 mt-3 ml-3">
+            {% for sublink in link.links %}
+              <a class="hover:text-neutral-500" href="{{ sublink.url }}">
+                {{- sublink.title -}}
+              </a>
+            {% endfor %}
+          </div>
+        </button>
+      {% else %}
+        <a class="hover:text-neutral-500" href="{{ link.url }}">
+          {{ link.title }}
+        </a>
+      {% endif %}
+    {% endfor %}
+    {% if shop.customer_accounts_enabled %}
+      <a class="hover:text-neutral-500" href="{{ routes.account_login_url }}">Login</a>
+      <a class="hover:text-neutral-500" href="{{ routes.account_register_url }}">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% schema %}
+{
+  "name": "Nav bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header_title",
+      "label": "Title",
+      "default": "Menu",
+      "info": "This is the title of the store"
+    },
+    {
+      "type": "link_list",
+      "id": "header_menu",
+      "label": "Header menu",
+      "default": "main-menu",
+      "info": "This is to define the menu in the header"
+    }
+  ]
+}
+{% endschema %}
