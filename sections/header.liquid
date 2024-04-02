@@ -42,16 +42,19 @@
 
     <div class="flex gap-5 md:hidden justify-end">
       <a class="hover:text-neutral-500" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
-      <button id="menu-open-icon" class="hover:text-neutral-500" onclick="mobileMenuHandler()">
+      <button id="menu-open-icon" class="hover:text-neutral-500">
         {% render 'icon-menu' %}
       </button>
-      <button id="menu-close-icon" class="hidden hover:text-neutral-500" onclick="mobileMenuHandler()">
+      <button id="menu-close-icon" class="hidden hover:text-neutral-500">
         {% render 'icon-menu-close' %}
       </button>
     </div>
   </div>
   <!-- MOBILE LINKS -->
-  <div id="mobile-links" class="hidden flex-col md:hidden py-10 gap-5">
+  <div
+    id="mobile-links"
+    class="flex flex-col bg-slate-100 w-full max-h-screen absolute right-0 translate-x-full transition-transform ease-in z-10 md:hidden gap-7 mt-5 px-5 py-10 shadow text-lg "
+  >
     {% for link in linklists[section.settings.header_menu].links %}
       {% if link.links != blank %}
         <button

@@ -1,21 +1,27 @@
 // Put your application javascript here
 
-// Hide and show mobile menu
-function mobileMenuHandler() {
-  const mobileLinks = document.querySelector("#mobile-links");
-  const mobileOpenMenuIcon = document.querySelector("#menu-open-icon");
-  const mobileCloseMenuIcon = document.querySelector("#menu-close-icon");
+//Mobile menu items
+const mobileLinks = document.querySelector("#mobile-links");
+//Mobile Burger Icon and Close
+const mobileOpenMenuIcon = document.querySelector("#menu-open-icon");
+const mobileCloseMenuIcon = document.querySelector("#menu-close-icon");
 
-  if (mobileLinks.classList.contains("hidden")) {
-    mobileLinks.classList.replace("hidden", "flex");
+// Function to hide and show mobile menu
+function mobileMenuHandler() {
+  if (mobileLinks.classList.contains("translate-x-full")) {
+    mobileLinks.classList.replace("translate-x-full", "translate-x-0");
     mobileCloseMenuIcon.classList.toggle("hidden");
     mobileOpenMenuIcon.classList.toggle("hidden");
   } else {
-    mobileLinks.classList.replace("flex", "hidden");
+    mobileLinks.classList.replace("translate-x-0", "translate-x-full");
     mobileCloseMenuIcon.classList.toggle("hidden");
     mobileOpenMenuIcon.classList.toggle("hidden");
   }
 }
+
+//Event listeners to handle mobile menu
+mobileOpenMenuIcon.addEventListener("click", mobileMenuHandler);
+mobileCloseMenuIcon.addEventListener("click", mobileMenuHandler);
 
 //Hide and show dropdown items in menu
 function menuDropdownHandler(elementId) {
