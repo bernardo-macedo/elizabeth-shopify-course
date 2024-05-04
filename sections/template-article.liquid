@@ -1,60 +1,128 @@
 {% comment %}
   This for loop checks each block from the schema blocks and and renders the html for each case
 {% endcomment %}
-{% for block in section.blocks %}
-  {% case block.type %}
-    {% when 'article_title' %}
-      <div class="grid grid-cols-1 md:grid-cols-2 p-10 md:p-20">
-        <div>
-          <a class="text-base font-bold uppercase text-gray-500 hover:text-gray-900 " href="{{ blog.url }}">
-            {{- blog.title -}}
-          </a>
-          <h1 class="text-3xl md:text-5xl mt-2">{{ article.title }}</h1>
-        </div>
-      </div>
-    {% when 'article_author' %}
-      {% if section.settings.enable_author %}
-        <div class="text-base px-10 py-2 md:px-20">
-          <p>{{ article.author }}</p>
-        </div>
-      {% endif %}
+<article>
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'article_title' %}
+        <section class="grid grid-cols-1 md:grid-cols-2 p-10 md:p-20">
+          <div>
+            <a class="text-base font-bold uppercase text-gray-500 hover:text-gray-900 " href="{{ blog.url }}">
+              {{- blog.title -}}
+            </a>
+            <h1 class="text-3xl md:text-5xl mt-2">{{ article.title }}</h1>
+          </div>
+        </section>
+      {% when 'article_author' %}
+        {% if section.settings.enable_author %}
+          <section class="text-base px-10 py-2 md:px-44">
+            <p>{{ article.author }}</p>
+          </section>
+        {% endif %}
 
-    {% when 'article_date' %}
-      {% if section.settings.enable_date %}
-        <div class="text-base px-10 py-2 md:px-20">
-          <time datetime="{{ article.published_at | date: "%Y-%m-%d" }}">
-            {{- article.published_at | date: '%Y-%m-%d' -}}
-          </time>
-        </div>
-      {% endif %}
+      {% when 'article_date' %}
+        {% if section.settings.enable_date %}
+          <section class="text-base px-10 py-2 md:px-44">
+            <time datetime="{{ article.published_at | date: "%Y-%m-%d" }}">
+              {{- article.published_at | date: '%Y-%m-%d' -}}
+            </time>
+          </section>
+        {% endif %}
 
-    {% when 'article_image' %}
-      {% if article.image != blank %}
-        <img
-          class="w-full h-64 md:h-80 bg-cover object-cover object-center"
-          src="{{ article.image | image_url }}"
-          alt="{{ article.image.alt }}"
-          width="{{ article.image.width }}"
-          height="{{ article.image.height }}"
-        >
+      {% when 'article_image' %}
+        {% if article.image != blank %}
+          <img
+            class="w-full h-64 md:h-80 bg-cover object-cover object-center"
+            src="{{ article.image | image_url }}"
+            alt="{{ article.image.alt }}"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+          >
+        {% else %}
+          {% assign placeholder_image = 'lifestyle-2' %}
+          {{ placeholder_image | placeholder_svg_tag: 'w-full h-64 md:h-80 bg-cover object-cover object-center' }}
+        {% endif %}
+
+      {% when 'article_content' %}
+        <section class="text-lg p-10 md:px-44">
+          <p>{{ article.content }}</p>
+        </section>
+
       {% else %}
-        {% assign placeholder_image = 'lifestyle-2' %}
-        {{ placeholder_image | placeholder_svg_tag: 'w-full h-64 md:h-80 bg-cover object-cover object-center' }}
-      {% endif %}
 
-    {% when 'article_content' %}
-      <div class="text-lg p-10 md:px-44">
-        <p>{{ article.content }}</p>
-      </div>
+    {% endcase %}
+  {% endfor %}
+</article>
 
+{% if blog.comments_enabled? %}
+  <section id="comments" class="my-8 p-10 md:px-44">
+    <h1 class="text-xl md:text-2xl">Comments</h1>
+    {% if article.comments_count > 0 %}
     {% else %}
+      <div class="my-4">There are no comments in this article.</div>
+    {% endif %}
+  </section>
+  <section id="comment-form" class="my-8 p-10 md:px-44">
+    {% form 'new_comment', article %}
+      <div>
+        {% if form.errors %}
+          <ul>
+            {% for error in form.errors %}
+              <li>{{ form.errors.messages[error] }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="comment_author" class="text-gray-500 uppercase text-sm">Name</label>
+          <input
+            name="comment[author]"
+            type="text"
+            id="comment_author"
+            placeholder="Your name"
+            class="w-full p-2 border mt-2"
+            required
+          >
+        </div>
+        <div>
+          <label for="comment_email" class="text-gray-500 uppercase text-sm">Email</label>
+          <input
+            name="comment[email]"
+            type="email"
+            id="comment_email"
+            placeholder="Your email"
+            class="w-full p-2 border mt-2"
+            required
+          >
+        </div>
+      </div>
+      <div class="w-full mt-4">
+        <label for="comment_content" class="text-gray-500 uppercase text-sm">Comment</label>
+        <textarea
+          name="comment[body]"
+          id="comment_content"
+          class="w-full p-2 border mt-2 resize-none"
+          required
+        ></textarea>
+      </div>
+      <div class="w-full mt-4">
+        <input
+          type="submit"
+          id="comment_content"
+          class="w-full p-2 mt-2 bg-gray-700 text-white cursor-pointer hover:bg-gray-400"
+          value="Post comment"
+          required
+        >
+      </div>
+    {% endform %}
+  </section>
+{% endif %}
 
-  {% endcase %}
-{% endfor %}
 {% schema %}
 {
   "name": "Article Template",
-  "tag": "article",
+
   "settings": [
     {
       "type": "checkbox",
