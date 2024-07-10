@@ -1,0 +1,49 @@
+<div class="py-8 px-10 md:px-44">
+  <h2 class="text-3xl md:text-5xl mb-8">{{ section.settings.title }}</h2>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    {% for collection in collections %}
+
+      {% if collection.all_products_count > 0 %}
+
+        {% if collection.featured_image != blank %}
+          {% assign collection_img = collection.featured_image %}
+        {% else %}
+          {% assign collection_img = collection.products.first.featured_image %}
+        {% endif %}
+
+
+        <a class="flex flex-col gap-2 mb-4" href="{{ collection.url }}">
+
+          <img
+            class="h-96 md:h-full w-full object-cover brightness-50 hover:brightness-100 transition duration-300 ease-in-out"
+            width=""
+            height=""
+            src="{{ collection_img |  image_url: width: 500 }}"
+            alt="{{ collection.title | escape }}">
+          <h2 class="text-lg">{{ collection.title }}</h2>
+
+        </a>
+
+
+      {% endif %}
+
+    {% endfor %}
+
+  </section>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Template List Collections",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "Collections",
+        "label": "Collections Title"
+      }
+    ]
+  }
+{% endschema %}

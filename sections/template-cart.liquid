@@ -1,0 +1,166 @@
+{% if cart.item_count > 0 %}
+  <div class="py-8 px-10 md:px-44">
+    <div class="flex items-center justify-between my-8">
+      <h1 class="text-3xl">{{ section.settings.cart_title }}</h1>
+      <a class="flex items-center justify-center hover:opacity-50" href="{{ routes.all_products_collection_url }}">
+        <span class="mr-2">Continue shopping</span>
+        {% render 'icon-arrow-right' %}
+      </a>
+    </div>
+
+    <div class="my-8">
+      <form
+        action="{{ routes.cart_url }}"
+        method="POST"
+        novalidate>
+        <table class="w-full table-auto divide-y divide-gray-200 my-4">
+          <thead class="text-left  text-sm text-gray-500">
+            <th class="font-medium">Product</th>
+            <th class="font-medium">Quantity</th>
+            <th class="font-medium">Price</th>
+          </thead>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="table-row">
+                <td class="flex items-center gap-3 py-2">
+                  <a href="{{ item.url }}">
+                    {% if item.image %}
+                      <img
+                        src="{{ item.image |  image_url: width: '300px'  }}"
+                        width="100%"
+                        height="auto"
+                        alt="{{ item.title |  escape }}"
+                        class="w-20 h-20 object-cover">
+                    {% else %}
+                      {{ 'product-1' | placeholder_svg_tag: '' }}
+
+                    {% endif %}
+                  </a>
+                  <div class="flex flex-col gap-1">
+                    <a class="text-sm font-medium text-gray-800 hover:text-gray-500" href="{{ item.url }}">{{ item.product.title | truncatewords: 15 }}</a>
+                    <span class="text-xs text-gray-500">{{ item.variant.title }}</span>
+                    <a class="text-sm font-medium text-red-600 hover:text-red-400" href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0">Remove</a>
+                  </div>
+                </td>
+                <td class="py-2">
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="1"
+                    id="updates_{{ forloop.index }}"
+                    class="border w-16 text-center">
+                </td>
+                <td class="py-2 text-sm font-medium">
+                  {{ item.line_price | money }}
+                </td>
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+        <div class="flex flex-col md:flex-row justify-between gap-2">
+          <div class="w-full flex flex-col items-start">
+            <label class="my-1" for="cart_notes">Cart notes</label>
+            <textarea
+              name="note"
+              id="cart_notes"
+              class="w-full md:max-w-lg resize-none border h-20"></textarea>
+
+          </div>
+          <div class="w-full md:w-60">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when "subtotal" %}
+                  <h3 class="font-medium text-right">{{ block.settings.subtotal_text }}: {{ cart.total_price | money }}</h3>
+
+                {% when "update_button" %}
+                  <button
+                    type="submit"
+                    name="update"
+                    class="w-full p-3 border border-gray-500 hover:bg-gray-500 hover:text-white mt-3">{{ block.settings.update_button_text }}</button>
+
+                {% when "checkout_button" %}
+                  <button
+                    type="submit"
+                    name="checkout"
+                    class="w-full p-3 bg-gray-700 hover:bg-gray-300 text-white mt-3">{{ block.settings.checkout_button_text }}</button>
+
+                  {% else %}
+              {% endcase %}
+            {% endfor %}
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+  </div>
+{% else %}
+  <div class="h-80 w-full flex flex-col justify-center items-center text-center">
+    <h2 class="text-4xl">Your cart is empty</h2>
+
+
+    <a class="flex h-8 items-center justify-center mt-8 font-medium hover:opacity-50" href="{{ routes.all_products_collection_url }}">
+      <span class="text-xl ">Continue shopping</span>
+      <span class="ml-2 flex items-center ">{% render 'icon-arrow-right' %}</span>
+    </a>
+
+  </div>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Template Cart",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "cart_title",
+        "label": "Cart Title",
+        "default": "Cart"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "subtotal",
+        "name": "Subtotal",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "subtotal_text",
+            "label": "Subtotal Text",
+            "default": "Subtotal"
+          }
+        ]
+      }, {
+        "type": "update_button",
+        "name": "Update Button",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "update_button_text",
+            "label": "Update Button Text",
+            "default": "Update"
+          }
+        ]
+      }, {
+        "type": "checkout_button",
+        "name": "Checkout Button",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "checkout_button_text",
+            "label": "Checkout Button Text",
+            "default": "Checkout"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

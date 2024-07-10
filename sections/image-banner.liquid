@@ -1,0 +1,130 @@
+{% assign placeholder_image_url = 'https://via.placeholder.com/1920x1080' %}
+
+{% if section.settings.image %}
+  {% assign banner_image = section.settings.image | image_url %}
+{% else %}
+  {% assign banner_image = placeholder_image_url %}
+{% endif %}
+
+{% assign image_banner_height = section.settings.image_height %}
+
+{% assign image_vertical_alignment = section.settings.vertical_alignment %}
+
+{% assign cta_horizontal_alignment = section.settings.cta_alignment %}
+
+<header class="w-full bg-cover flex items-center px-44" style="background-image: url('{{ banner_image }}'); height: {{image_banner_height}}vh; background-position: {{ image_vertical_alignment }}; justify-content: {{ cta_horizontal_alignment }};">
+
+  {% if section.settings.show_cta %}
+    <div class=" text-center">
+      {% if section.settings.show_title %}
+        <h2 class="text-2xl md:text-4xl mb-4 font-semibold text-white">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.show_subtitle %}
+        <h3 class="text-xl md:text-2xl mb-4 text-white">{{ section.settings.subtitle }}</h3>
+      {% endif %}
+      {% if section.settings.show_button %}
+        <a class=" inline-block px-8 py-2 bg-gray-500 hover:bg-gray-300 text-white" href="{{ section.settings.button_url }}">{{ section.settings.button }}</a>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</header>
+
+{% schema %}
+  {
+    "name": "Image banner",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "range",
+        "id": "image_height",
+        "min": 40,
+        "max": 100,
+        "step": 10,
+        "unit": "vh",
+        "label": "Image height",
+        "default": 80
+      },
+      {
+        "type": "select",
+        "id": "vertical_alignment",
+        "label": "Image vertical alignment",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "cta_alignment",
+        "label": "Call to action alignment",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          }, {
+            "value": "center",
+            "label": "Center"
+          }, {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      }, {
+        "type": "checkbox",
+        "id": "show_cta",
+        "label": "Show CTA section",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "show_title",
+        "label": "Show Title",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "show_subtitle",
+        "label": "Show Subtitle",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "show_button",
+        "label": "Show Button",
+        "default": true
+      }, {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "This is a title"
+      }, {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "This is a subtitle"
+      }, {
+        "type": "text",
+        "id": "button",
+        "label": "Button text",
+        "default": "Shop"
+      }, {
+        "type": "url",
+        "id": "button_url",
+        "label": "Button URL",
+        "default": "/collections/all"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,48 @@
+<div class="px-10 py-20 md:px-44">
+  <h2 class="text-3xl md:text-5xl mb-8">{{ section.settings.title }}</h2>
+  <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 mb-4">
+
+    {% for product in section.settings.featured_collection.products limit: section.settings.number_of_products_limit %}
+      {% render "product-card"
+        , product: product %}
+
+    {% else %}
+      {% for item in (1..4) %}
+        {% render "product-card-placeholder" %}
+      {% endfor %}
+
+    {% endfor %}
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured Collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "Featured Collection",
+        "label": "Title"
+      }, {
+        "type": "collection",
+        "id": "featured_collection",
+        "label": "Collection"
+      }, {
+        "type": "range",
+        "id": "number_of_products_limit",
+        "default": 4,
+        "min": 4,
+        "max": 8,
+        "label": "Number of products"
+      }
+
+    ],
+    "presets": [
+      {
+        "name": "Featured Collection"
+      }
+    ]
+  }
+{% endschema %}

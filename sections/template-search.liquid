@@ -1,0 +1,30 @@
+<div class="py-8 px-10 md:px-44">
+
+  {% paginate search.results by 12 %}
+    <h1 class="text-3xl md:text-5xl mb-8">Search results</h1>
+    {% if search.performed %}
+      {% if search.results.size > 0 %}
+        <h2>{{ search.results.size }} results for the search term: {{ search.terms | escape }}</h2>
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-8 mb-4">
+          {% for item in search.results %}
+            {% case item.object_type %}
+              {% when "product" %}
+
+                {% render "product-card"
+                  , product: item %}
+                {% else %}
+
+            {% endcase %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-4">
+          <p>No results found for the search term: {{ search.terms | escape }}. Try to use a different keyword</p>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% render "pagination"
+      , paginate: paginate %}
+  {% endpaginate %}
+</div>

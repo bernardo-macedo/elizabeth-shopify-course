@@ -8,12 +8,12 @@ const mobileCloseMenuIcon = document.querySelector("#menu-close-icon");
 
 // Function to hide and show mobile menu
 function mobileMenuHandler() {
-  if (mobileLinks.classList.contains("translate-x-full")) {
-    mobileLinks.classList.replace("translate-x-full", "translate-x-0");
+  if (mobileLinks.classList.contains("scale-0")) {
+    mobileLinks.classList.replace("scale-0", "scale-100");
     mobileCloseMenuIcon.classList.toggle("hidden");
     mobileOpenMenuIcon.classList.toggle("hidden");
   } else {
-    mobileLinks.classList.replace("translate-x-0", "translate-x-full");
+    mobileLinks.classList.replace("scale-100", "scale-0");
     mobileCloseMenuIcon.classList.toggle("hidden");
     mobileOpenMenuIcon.classList.toggle("hidden");
   }
@@ -42,3 +42,18 @@ function menuDropdownHandler(elementId) {
     dropdownSublinks.classList.replace("flex", "hidden");
   }
 }
+
+const searchButton = document.querySelectorAll(".search-button");
+const searchBar = document.querySelector("#search-bar");
+
+const handleShowSearchBar = () => {
+  if (searchBar.classList.contains("scale-0")) {
+    searchBar.classList.replace("scale-0", "scale-100");
+  } else {
+    searchBar.classList.replace("scale-100", "scale-0");
+  }
+};
+
+searchButton.forEach((element) => {
+  element.addEventListener("click", handleShowSearchBar);
+});

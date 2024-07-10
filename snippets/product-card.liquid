@@ -1,0 +1,17 @@
+<article>
+  <a href="{{ product.url }}">
+    {% if product.featured_image %}
+      <div class=" overflow-hidden"><img
+          class="w-full h-40 md:h-64 object-cover transition duration-300 ease-in-out hover:scale-125"
+          width="100%"
+          height="auto"
+          src="{{ product.featured_image |  image_url: width: '1000'  }}"
+          alt="{{ product.featured_image.alt }}"></div>
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag: 'w-full h-40 md:h-64 bg-gray-100' }}
+    {% endif %}
+    <h2 class="text-md font-medium md:text-xl mt-2">{{ product.title }}</h2>
+    <p class=" text-gray-600">{{ product.vendor }}</p>
+    <p>{{ product.price | money }}</p>
+  </a>
+</article>
