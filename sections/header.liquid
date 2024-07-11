@@ -1,9 +1,9 @@
-<nav class="p-5 md:px-44 bg-slate-100 text-base font-medium text-neutral-900 shadow-md">
-  <div class="grid grid-cols-2 md:grid-cols-3">
+<nav class="p-5 xl:px-44 bg-slate-100 text-base font-medium text-neutral-900 shadow-md">
+  <div class="grid grid-cols-2 lg:grid-cols-3">
     <div class="md:flex justify-start">
       <a class="hover:opacity-50 transition duration-300 ease-in-out" href="{{ shop.url }}">{{ section.settings.header_title }}</a>
     </div>
-    <div class="hidden md:flex justify-center gap-6 text-neutral-600">
+    <div class="hidden lg:flex justify-center gap-6 text-neutral-600">
       {% for link in linklists[section.settings.header_menu].links %}
         {% if link.links != blank %}
           <div>
@@ -33,7 +33,7 @@
         {% endif %}
       {% endfor %}
     </div>
-    <div class="hidden md:flex justify-end gap-6 text-neutral-600">
+    <div class="hidden lg:flex justify-end gap-6 text-neutral-600">
       <button type="button" class="search-button">{% render "icon-search" %}</button>
       <a class="hover:text-neutral-400" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
       {% if shop.customer_accounts_enabled %}
@@ -42,7 +42,7 @@
       {% endif %}
     </div>
 
-    <div class="flex gap-5 md:hidden items-center justify-end text-neutral-600">
+    <div class="flex gap-5 lg:hidden items-center justify-end text-neutral-600">
       <button type="button" class="search-button">{% render "icon-search" %}</button>
       <a class="hover:text-neutral-400" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
       <button id="menu-open-icon" class="hover:text-neutral-400">
@@ -55,7 +55,7 @@
   </div>
 
   <!-- MOBILE LINKS -->
-  <div id="mobile-links" class="flex flex-col items-center bg-slate-100 w-full max-h-screen absolute left-0 right-0 top-16 bottom-0 scale-0 transition ease-in duration-200 origin-top-right z-10 md:hidden gap-7 mt-5 px-5 py-10 shadow text-lg text-neutral-600">
+  <div id="mobile-links" class="flex flex-col items-center bg-slate-100 w-full max-h-screen absolute left-0 right-0 top-16 bottom-0 scale-0 transition ease-in duration-200 origin-top-right z-10 lg:hidden gap-7 mt-5 px-5 py-10 shadow text-lg text-neutral-600">
     {% for link in linklists[section.settings.header_menu].links %}
       {% if link.links != blank %}
         <button
