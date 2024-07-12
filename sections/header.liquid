@@ -35,7 +35,9 @@
     </div>
     <div class="hidden lg:flex justify-end gap-6 text-neutral-600">
       <button type="button" class="search-button">{% render "icon-search" %}</button>
-      <a class="hover:text-neutral-400" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
+      <a class="hover:text-neutral-400 hover:opacity-50 relative" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}
+        <span class="absolute -bottom-1 -right-2 size-5 rounded-full p-1 bg-orange-600 text-white text-[0.6rem] flex items-center justify-center">{{ cart.item_count }}</span>
+      </a>
       {% if shop.customer_accounts_enabled %}
         <a class="hover:text-neutral-400" href="{{ routes.account_login_url }}">Login</a>
         <a class="hover:text-neutral-400" href="{{ routes.account_register_url }}">Register</a>
@@ -44,7 +46,9 @@
 
     <div class="flex gap-5 lg:hidden items-center justify-end text-neutral-600">
       <button type="button" class="search-button">{% render "icon-search" %}</button>
-      <a class="hover:text-neutral-400" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}</a>
+      <a class="hover:text-neutral-400 hover:opacity-50 relative" href="{{ routes.cart_url }}">{% render 'icon-shopping-bag' %}
+        <span class="absolute -bottom-1 -right-2 size-5 rounded-full p-1 bg-orange-600 text-white text-[0.6rem] flex items-center justify-center">{{ cart.item_count }}</span>
+      </a>
       <button id="menu-open-icon" class="hover:text-neutral-400">
         {% render 'icon-menu' %}
       </button>
