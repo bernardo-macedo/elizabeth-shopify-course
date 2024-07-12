@@ -12,7 +12,7 @@
 
 {% assign cta_horizontal_alignment = section.settings.cta_alignment %}
 
-<header class="w-full bg-cover flex items-center px-44" style="background-image: url('{{ banner_image }}'); height: {{image_banner_height}}vh; background-position: {{ image_vertical_alignment }}; justify-content: {{ cta_horizontal_alignment }};">
+<header class="w-full bg-cover flex items-center p-5 md:px-44" style="background-image: url('{{ banner_image }}'); height: {{image_banner_height}}vh; background-position: {{ image_vertical_alignment }}; justify-content: {{ cta_horizontal_alignment }};">
 
   {% if section.settings.show_cta %}
     <div class=" text-center">
