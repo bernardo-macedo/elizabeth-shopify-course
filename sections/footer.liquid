@@ -1,12 +1,87 @@
-<div class="max-w-lg m-auto text-center">
-  {{ section.settings.footer_text }}
+{% assign facebook_link = section.settings.facebook_link %}
+{% assign instagram_link = section.settings.instagram_link %}
+{% assign youtube_link = section.settings.youtube_link %}
+
+{% assign icon_color = section.settings.icon_color %}
+
+<div class="px-10 lg:px-44">
+
+  <div class="py-16 grid grid-cols-1 md:grid-cols-2">
+
+    <div>
+      {% if section.settings.show_facebook or section.settings.show_instagram or section.settings.show_youtube %}
+        <h3 class=" font-semibold mb-4">Follow us</h3>
+      {% endif %}
+
+      <div class="flex gap-3">
+        {% if section.settings.show_facebook %}
+          <a class="p-2 size-10 rounded-full bg-slate-500 flex items-center justify-center hover:opacity-50" href="{{ facebook_link }}">
+            {% render "icon-facebook"
+              , color: icon_color %}
+          </a>
+        {% endif %}
+        {% if section.settings.show_instagram %}
+          <a class="p-2 size-10 rounded-full bg-slate-500 flex items-center justify-center hover:opacity-50" href="{{ instagram_link }}">
+            {% render "icon-instagram"
+              , color: icon_color %}
+          </a>
+        {% endif %}
+        {% if section.settings.show_youtube %}
+          <a class="p-2 size-10 rounded-full bg-slate-500 flex items-center justify-center hover:opacity-50" href="{{ youtube_link }}">
+            {% render "icon-youtube"
+              , color: icon_color %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <h3 class=" font-semibold mb-4">More</h3>
+        <ul class="flex flex-col gap-4">
+          {% for page in pages %}
+            <li>
+              <a class="hover:opacity-50" href="{{ page.url }}">{{ page.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div>
+        <h3 class=" font-semibold mb-4">Policy</h3>
+        <ul class="flex flex-col gap-4">
+          <li>
+            <a class="hover:opacity-50" href="">Terms of use</a>
+          </li>
+          <li>
+            <a class="hover:opacity-50" href="">Privacy policy</a>
+          </li>
+          <li>
+            <a class="hover:opacity-50" href="">Quality policy</a>
+          </li>
+          <li>
+            <a class="hover:opacity-50" href="">Cookies policy</a>
+          </li>
+          <li>
+            <a class="hover:opacity-50" href="">Company details</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="py-4 border-t border-t-slate-400 text-center">
+    &copy;{{ section.settings.footer_text }} 2024. All rights reserved.
+  </div>
+
 </div>
 
 {% schema %}
   {
     "name": "Footer",
     "tag": "footer",
-    "class": "w-full bg-slate-100 p-4",
+    "class": "w-full bg-slate-100",
     "settings": [
       {
         "type": "text",
@@ -14,6 +89,44 @@
         "label": "Footer text",
         "default": "Elizabeth",
         "info": "This is the footer text"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_facebook",
+        "label": "Show Facebook icon",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "facebook_link",
+        "label": "Facebook link",
+        "info": "Facebook page link"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_instagram",
+        "label": "Show Instagram icon",
+        "default": true
+      }, {
+        "type": "text",
+        "id": "instagram_link",
+        "label": "Instagram link",
+        "info": "Instagram page link"
+      }, {
+        "type": "checkbox",
+        "id": "show_youtube",
+        "label": "Show Youtube icon",
+        "default": true
+      }, {
+        "type": "text",
+        "id": "youtube_link",
+        "label": "Youtube link",
+        "info": "Youtube page link"
+      }, {
+        "type": "color",
+        "id": "icon_color",
+        "label": "Icons Color",
+        "default": "#ffffff"
       }
     ]
   }
